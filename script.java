@@ -1,123 +1,57 @@
 // Google Sheet URL
-const SCRIPT_URL =
+const URL =
 "https://script.google.com/macros/s/AKfycbwDtTRowNMfCzK1A3jBr6EGgBNGU4csdfslIZZ3QsCjUZwoD3a-D_3loQ1BAi_Jbd6iuw/exec";
 
-// Falling icons by stage
-let currentIcons = ["🎂","🎈","🎉","✨"];
-
 // Save answer to Google Sheet
-function saveAnswer(answer){
-
-fetch(SCRIPT_URL,{
-    method:"POST",
-    body:JSON.stringify({
-        answer:answer
-    })
-})
-.then(() => console.log("Answer Saved"))
-.catch(err => console.log(err));
-
+function save(answer){
+fetch(URL,{
+method:"POST",
+body:JSON.stringify({answer:answer})
+});
 }
 
-// Birthday → Memory
-function goMemory(){
-
+// 🎬 SCREEN FLOW
+function showMemory(){
 document.getElementById("birthday").classList.add("hidden");
 document.getElementById("memory").classList.remove("hidden");
-
-currentIcons = ["❤️","💕","💖","✨"];
-
 }
 
-// Memory → Proposal
-function goProposal(){
-
+function showProposal(){
 document.getElementById("memory").classList.add("hidden");
-document.getElementById("proposal").classList.remove("hidden");
 
-currentIcons = ["🌹","❤️","💍","✨"];
-
+let proposal = document.getElementById("proposal");
+proposal.classList.remove("hidden");
+proposal.classList.add("active");
 }
 
-// YES
-function showYes(){
+// ❤️ YES ACTION
+function yes(){
 
-saveAnswer("YES ❤️");
+save("YES ❤️");
 
 document.getElementById("result").innerHTML = `
+Nijam cheppali ante ni love ki nen right person or kadhu ane vishyam nak thelidhu.
 
-Nijam cheppali ante ni love ki nen right person or kadhu ane vishyam nak thelidhu. Becoz ni la loyal ga care ga chusukune ammai ni bahusa inkekkada chudan emo.
+But I promise I will stay with you forever.
 
-Side keeping unchukune e generation lo nuv eppudu ni character ni pakkana pettaledhu unnadhi unnatlu cheppav a roju wrong hopes ivvaledhu.
-
-Ippudu nannu accept chesav ante i feel thankful and I promise ninnu a situation lo odhipettanu.
-
-Fights between us are common but love on you is forever and ever.
-
-LOVE YOU VYSHUUUUUU 🙃
-
-❤️ Happy Birthday Vyshuuu ❤️
-
-— Vikas
+LOVE YOU VYSHUU ❤️
 `;
 
-document.querySelector(".buttons").style.display = "none";
-
-currentIcons = ["❤️","💕","💖","💘","✨"];
-
+document.querySelector(".yes").style.display = "none";
+document.querySelector(".no").style.display = "none";
 }
 
-// NO
-function showNo(){
+// 🌹 NO ACTION
+function no(){
 
-saveAnswer("NO 🌹");
+save("NO 🌹");
 
 document.getElementById("result").innerHTML = `
+Pedhaga cheppaniki inkem ledhu...
 
-Pedhaga cheppaniki inkem ledhu but you are best part of my life ala ani ikkade odhilesi ponu.
-
-Last 0.01% kuda ayipoye daaka try chestunta.
-
-Becoz i don't wanna loose you.
-
-— Vikas
+But you will always be special to me.
 `;
 
-document.querySelector(".buttons").style.display = "none";
-
-currentIcons = ["🌹","⭐","✨"];
-
-}
-
-// Falling Icons Animation
-function createIcon(){
-
-let icon = document.createElement("div");
-
-icon.className = "falling";
-
-icon.innerHTML =
-currentIcons[
-Math.floor(Math.random()*currentIcons.length)
-];
-
-icon.style.left =
-Math.random()*100 + "vw";
-
-icon.style.animationDuration =
-(5 + Math.random()*8) + "s";
-
-document.body.appendChild(icon);
-
-setTimeout(() => {
-icon.remove();
-},13000);
-
-}
-
-setInterval(createIcon,500);
-
-// Initial particles
-for(let i=0;i<15;i++){
-setTimeout(createIcon,i*200);
+document.querySelector(".yes").style.display = "none";
+document.querySelector(".no").style.display = "none";
 }
