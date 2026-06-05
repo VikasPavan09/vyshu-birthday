@@ -3,132 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Vyshu ❤️</title>
+<title>Chapter of Us ❤️</title>
 
-<!-- Fonts already handled in CSS -->
-<link rel="stylesheet" href="style.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;600;700&display=swap');
 
+/* ===== BODY ===== */
+body{
+margin:0;
+padding:0;
+background:black;
+color:white;
+overflow:hidden;
+font-family:'Cinzel',serif;
+height:100vh;
+}
+
+/* ===== NETFLIX INTRO ===== */
+.intro{
+position:fixed;
+width:100%;
+height:100vh;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+animation:fadeOut 3s ease forwards;
+animation-delay:2.5s;
+}
+
+.netflix{
+font-family:'Bebas Neue',sans-serif;
+font-size:5rem;
+color:#e50914;
+letter-spacing:8px;
+animation:zoom 2s ease;
+}
+
+@keyframes zoom{
+from{transform:scale(0.5);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+@keyframes fadeOut{
+to{opacity:0;visibility:hidden;}
+}
+
+/* ===== SCREEN ===== */
+.screen{
+position:absolute;
+width:100%;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+transition:1s;
+padding:20px;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+transform:scale(0.95);
+}
+
+/* CARD */
+.screen::before{
+content:"";
+position:absolute;
+width:85%;
+height:80%;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:20px;
+backdrop-filter:blur(12px);
+z-index:-1;
+}
+
+/* TEXT */
+h1{
+font-family:'Bebas Neue',sans-serif;
+font-size:3.5rem;
+color:#ffd699;
+}
+
+p{
+max-width:800px;
+line-height:2;
+font-size:1.2rem;
+}
+
+/* BUTTONS */
+button{
+padding:15px 35px;
+border:none;
+border-radius:50px;
+font-size:18px;
+cursor:pointer;
+margin:10px;
+}
+
+.next{
+background:#ffd699;
+color:black;
+}
+
+.yes{
+background:#ff4f81;
+color:white;
+}
+
+.no{
+background:white;
+color:black;
+}
+
+/* RESULT */
+.result{
+margin-top:20px;
+white-space:pre-line;
+line-height:2;
+font-size:18px;
+}
+
+/* ZOOM EFFECT */
+#proposal{
+transform:scale(0.85);
+opacity:0;
+transition:1s;
+}
+
+#proposal.active{
+transform:scale(1);
+opacity:1;
+}
+
+</style>
 </head>
-<link rel="stylesheet" href="./style.css">
+
 <body>
 
-<!-- 🎬 NETFLIX INTRO -->
+<!-- INTRO -->
 <div class="intro">
-    <div class="netflix-text">NETFLIX</div>
+<div class="netflix">NETFLIX</div>
 </div>
 
-<!-- 🎂 BIRTHDAY SCREEN -->
+<!-- BIRTHDAY -->
 <div id="birthday" class="screen">
 <h1>🎂 Happy Birthday Vyshu ❤️</h1>
-
-<p>
-Today is not just a day...<br>
-It’s the beginning of something unforgettable.
-</p>
-
-<button class="next" onclick="showMemory()">Continue ❤️</button>
+<p>Today is not just a day... it's a story beginning.</p>
+<button class="next" onclick="goMemory()">Continue ❤️</button>
 </div>
 
-<!-- 📖 MEMORY SCREEN -->
+<!-- MEMORY -->
 <div id="memory" class="screen hidden">
 <h1>📖 Our Story</h1>
-
 <p>
-Four months…<br><br>
-
-But every moment with you felt special.<br><br>
-
-You became someone I truly care about.
+4 months... but feels like forever.<br>
+You became someone special in my life.
 </p>
-
-<button class="next" onclick="showProposal()">One Last Thing 💍</button>
+<button class="next" onclick="goProposal()">One Last Thing 💍</button>
 </div>
 
-<!-- 💍 PROPOSAL SCREEN -->
+<!-- PROPOSAL -->
 <div id="proposal" class="screen hidden">
 
 <h1>❤️ Vyshu ❤️</h1>
 
 <p>
-Life lo chala mandhi vastaru, veltharu...<br><br>
-
-Kani konthamandhi matram mana life lo permanent ga undalani anipistundi.<br><br>
-
 Will you be part of my life forever?
 </p>
 
 <div>
-<button class="yes" onclick="yes()">❤️ YES</button>
-<button class="no" onclick="no()">🌹 NO</button>
+<button class="yes" onclick="yes()">YES ❤️</button>
+<button class="no" onclick="no()">NO 🌹</button>
 </div>
 
 <div id="result" class="result"></div>
 
 </div>
 
-<!-- 🔊 SCRIPT -->
 <script>
 
-// Google Sheet URL
-const URL =
-"https://script.google.com/macros/s/AKfycbwDtTRowNMfCzK1A3jBr6EGgBNGU4csdfslIZZ3QsCjUZwoD3a-D_3loQ1BAi_Jbd6iuw/exec";
-
-// Save to sheet
-function save(ans){
-fetch(URL,{
-method:"POST",
-body:JSON.stringify({answer:ans})
-});
-}
-
-// 🎬 Screens
-function showMemory(){
+function goMemory(){
 document.getElementById("birthday").classList.add("hidden");
 document.getElementById("memory").classList.remove("hidden");
 }
 
-function showProposal(){
+function goProposal(){
 document.getElementById("memory").classList.add("hidden");
-
-let p = document.getElementById("proposal");
+let p=document.getElementById("proposal");
 p.classList.remove("hidden");
 p.classList.add("active");
 }
 
-// ❤️ YES
 function yes(){
-
-save("YES ❤️");
-
-document.getElementById("result").innerHTML = `
-
-Nijam cheppali ante ni love ki nen right person or kadhu ane vishyam nak thelidhu.
-
-But I promise I will always stay with you.
-
-LOVE YOU VYSHUU ❤️
-`;
-
-document.querySelector(".yes").style.display="none";
-document.querySelector(".no").style.display="none";
-
+document.getElementById("result").innerHTML =
+"LOVE YOU VYSHUU ❤️\nForever together.";
 }
 
-// 🌹 NO
 function no(){
-
-save("NO 🌹");
-
-document.getElementById("result").innerHTML = `
-
-Pedhaga cheppaniki inkem ledhu...
-
-But you will always be special to me.
-`;
-
-document.querySelector(".yes").style.display="none";
-document.querySelector(".no").style.display="none";
-
+document.getElementById("result").innerHTML =
+"You will always be special ❤️";
 }
 
 </script>
